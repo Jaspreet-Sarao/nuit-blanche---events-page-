@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Cards with Plan Feature</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #e6e6e6;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      background: #000;
+    }
+
+    .card-top {
+      background-color: #2d2d2d;
+      height: 192px;
+    }
+
+    .card-bottom {
+      background-color: #000;
+      height: 264px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 20px;
+    }
+
+    .card-bottom button {
+      background: #ddd;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+
+    .card-bottom button.added {
+      background-color: #999;
+      color: white;
+      cursor: default;
+    }
+
+    .remove-link {
+      color: #ff4d4d;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 14px;
+      display: none;
+    }
+
+    .popup {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: black;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      display: none;
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .popup a {
+      margin: 0 10px;
+      color: #007BFF;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      z-index: 999;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grid">
+  <div class="card">
+    <div class="card-top"></div>
+    <div class="card-bottom">
+      <button onclick="showPopup(this)">Add to Plan</button>
+      <a class="remove-link" onclick="removePlan(this)">Remove</a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-top"></div>
+    <div class="card-bottom">
+      <button onclick="showPopup(this)">Add to Plan</button>
+      <a class="remove-link" onclick="removePlan(this)">Remove</a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-top"></div>
+    <div class="card-bottom">
+      <button onclick="showPopup(this)">Add to Plan</button>
+      <a class="remove-link" onclick="removePlan(this)">Remove</a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-top"></div>
+    <div class="card-bottom">
+      <button onclick="showPopup(this)">Add to Plan</button>
+      <a class="remove-link" onclick="removePlan(this)">Remove</a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-top"></div>
+    <div class="card-bottom">
+      <button onclick="showPopup(this)">Add to Plan</button>
+      <a class="remove-link" onclick="removePlan(this)">Remove</a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-top"></div>
+    <div class="card-bottom">
+      <button onclick="showPopup(this)">Add to Plan</button>
+      <a class="remove-link" onclick="removePlan(this)">Remove</a>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="popup" id="popup">
+  <p>Plan is added!</p>
+  <a onclick="cancelPlan()">Cancel</a>
+  <a onclick="hidePopup()">List</a>
+</div>
+
+<script>
+  let currentButton = null;
+
+  function showPopup(button) {
+    currentButton = button;
+    const cardBottom = button.parentElement;
+    const removeLink = cardBottom.querySelector('.remove-link');
+
+    button.textContent = "Added to Plan";
+    button.classList.add("added");
+    button.disabled = true;
+    removeLink.style.display = "inline";
+
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+  }
+
+  function hidePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+  }
+
+  function cancelPlan() {
+    if (currentButton) {
+      const cardBottom = currentButton.parentElement;
+      const removeLink = cardBottom.querySelector('.remove-link');
+
+      currentButton.textContent = "Add to Plan";
+      currentButton.classList.remove("added");
+      currentButton.disabled = false;
+      removeLink.style.display = "none";
+    }
+    hidePopup();
+  }
+
+  function removePlan(link) {
+    const cardBottom = link.parentElement;
+    const button = cardBottom.querySelector('button');
+
+    button.textContent = "Add to Plan";
+    button.classList.remove("added");
+    button.disabled = false;
+    link.style.display = "none";
+  }
+</script>
+
+</body>
+</html>
